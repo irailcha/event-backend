@@ -1,17 +1,20 @@
 import mongoose from "mongoose";
 
 import app from "./app.js";
-const port = process.env.PORT || 3000;
 
+
+
+console.log("DB_HOST:", process.env.DB_HOST);
 
 mongoose
   .connect(process.env.DB_HOST)
   .then(() => {
+    const port = process.env.PORT || 3002;
     app.listen(port, () => {
-      console.log(`Server running. Use our API on port: ${port}`);
+      console.log(`Server running on port: ${port}`);
     });
   })
   .catch((error) => {
-    console.log(error.message);
+    console.error("Error connecting to MongoDB:", error.message);
     process.exit(1);
   });
