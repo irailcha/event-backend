@@ -18,7 +18,11 @@ const eventSchema = new Schema(
     organizer:{
         type: String,
         required: true,
-    }
+    },
+    participantList: {
+      type: [{ type: Schema.Types.Object, ref: "EventRegistr" }],
+    },
+
   
   
   },

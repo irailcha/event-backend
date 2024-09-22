@@ -1,10 +1,13 @@
 import express from "express";
-import getAllEvents from '../controllers/event-controllers.js';
+import eventControllers from '../controllers/event-controllers.js';
+
+const eventRouter = express.Router();
 
 
+eventRouter.get('/', eventControllers.getAllEvents);
 
-const eventRouter=express.Router();
+eventRouter.post('/:eventId/participants/:participantId', eventControllers.addParticipants);
 
-eventRouter.get('/', getAllEvents);
+eventRouter.get('/:eventId/participants', eventControllers.getParticipants);
 
 export default eventRouter;
