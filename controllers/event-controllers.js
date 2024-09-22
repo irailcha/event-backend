@@ -22,7 +22,7 @@ const getAllEvents= async (req, res, next) => {
     try {
       const { eventId } = req.params; 
   
-      const event = await Event.findById(eventId).populate("participantList");
+      const event = await Event.findOne({ _id: eventId }).populate("participantList");
       if (!event) {
         throw HttpError(404, `Event not found`);
       }
@@ -53,7 +53,9 @@ const getAllEvents= async (req, res, next) => {
       if (!event) {
         return res.status(404).json({ message: "Event not found" });
       }
-  
+      if (!event.participantList) {
+        event.participantList = []; 
+      }
       event.participantList.push(newRegistration);
       await event.save();
   

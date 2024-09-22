@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
 
-
 const eventSchema = new Schema(
   {
     title: {
@@ -15,20 +14,17 @@ const eventSchema = new Schema(
       type: Date,
       required: true,
     },
-    organizer:{
-        type: String,
-        required: true,
+    organizer: {
+      type: String,
+      required: true,
     },
     participantList: {
-      type: [{ type: Schema.Types.Object, ref: "EventRegistr" }],
+      type: [{ type: Schema.Types.ObjectId, ref: "EventRegistr" }],
     },
-
-  
-  
   },
   { versionKey: false, timestamps: true }
 );
 
-const Event = model("events", eventSchema);
+const Event = model("Event", eventSchema); 
 
 export default Event;

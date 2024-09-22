@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 
-const EventRegistrationSchema=new Schema(
+const EventParticipantSchema=new Schema(
     {
         fullname: {
           type: String,
@@ -22,14 +22,12 @@ const EventRegistrationSchema=new Schema(
         source: { 
           type: String, 
           required: true },
-
-
-
     
-    }
+    },
+    { versionKey: false, timestamps: true }
 )
 
+const EventRegistr = model("EventRegistr", EventParticipantSchema);
 
-const EventRegistr=model( "eventRegistration", EventRegistrationSchema)
 
 export default EventRegistr;
