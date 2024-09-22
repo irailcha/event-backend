@@ -3,7 +3,7 @@ import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import eventRouter from "./routes/event-routes.js";
-import eventRouterRegister from './routes/event-registration-routes.js'
+
 
 
 const app = express();
