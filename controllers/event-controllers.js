@@ -49,7 +49,7 @@ const getAllEvents= async (req, res, next) => {
   
       await newRegistration.save();
   
-      const event = await Event.findOne(eventId);
+      const event = await Event.findOne({ _id: eventId });
       if (!event) {
         return res.status(404).json({ message: "Event not found" });
       }
