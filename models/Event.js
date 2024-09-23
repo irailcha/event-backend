@@ -19,7 +19,7 @@ const eventSchema = new Schema(
       required: true,
     },
     participantList: {
-      type: [{ type: Schema.Types.ObjectId, ref: "EventRegistr" }],
+      type: [{ type: Schema.Types.ObjectId, ref: "Participant" }],
     },
   },
   { versionKey: false, timestamps: true }

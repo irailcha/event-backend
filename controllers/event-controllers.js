@@ -1,5 +1,5 @@
 import Event from "../models/Event.js";
-import EventRegistr from "../models/EventRegistr.js";
+import Participant from "../models/Participant.js";
 
 const getAllEvents= async (req, res, next) => {
     try {
@@ -15,7 +15,6 @@ const getAllEvents= async (req, res, next) => {
     }
   };
   
-
   
 
   const getParticipants = async (req, res, next) => {
@@ -34,35 +33,43 @@ const getAllEvents= async (req, res, next) => {
   };
   
 
-  const eventRegistration = async (req, res, next) => {
+  const getRegistration = async (req, res, next) => {
     const { fullname, email, date_of_birth, source } = req.body;
-    const { eventId } = req.params; 
-  
-    const newRegistration = new EventRegistr({
-      fullname,
-      email,
-      date_of_birth,
-      source,
-    });
-  
-    try {
-  
-      await newRegistration.save();
-  
-      const event = await Event.findOne({ _id: eventId });
-      if (!event) {
-        return res.status(404).json({ message: "Event not found" });
-      }
-      if (!event.participantList) {
-        event.participantList = []; 
-      }
-      event.participantList.push(newRegistration);
-      await event.save();
-  
-      return res.status(201).json({ message: "Registration successful!", participant: newRegistration });
-    } catch (error) {
-      next(error);
-    }
-  };
+    const { eventId } = req.params;
 
-  export default {getAllEvents, getParticipants, eventRegistration};
+    try {
+        let participant = await Participant.findOne({ email });
+
+        if (!participant) {
+            participant = new Participant({
+                fullname,
+                email,
+                date_of_birth,
+                source,
+            });
+            await participant.save();
+        }
+
+        const event = await Event.findOne({ _id: eventId });
+        if (!event) {
+            return res.status(404).json({ message: "Event not found" });
+        }
+
+        const participantExists = event.participantList.some(part => part._id.toString() === participant._id.toString());
+        if (participantExists) {
+            return res.status(409).json({ message: "Participant already registered." });
+        }
+
+        event.participantList.push(participant);
+        await event.save();
+
+        return res.status(201).json({ message: "Registration successful!", participant });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+
+
+  export default {getAllEvents, getParticipants, getRegistration};

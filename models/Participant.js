@@ -27,7 +27,7 @@ const EventParticipantSchema=new Schema(
     { versionKey: false, timestamps: true }
 )
 
-const EventRegistr = model("EventRegistr", EventParticipantSchema);
+const Participant = model("Participant", EventParticipantSchema);
 
 
-export default EventRegistr;
+export default Participant;
