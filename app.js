@@ -3,7 +3,7 @@ import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import eventRouter from "./routes/event-routes.js";
-
+import userRouter from './routes/user-router.js'
 
 
 const app = express();
@@ -15,7 +15,7 @@ app.use("*", cors());
 app.use(express.json());
 
 app.use('/events', eventRouter);
-
+app.use("/auth", userRouter);
 
 app.use((req, res) => {
   res
